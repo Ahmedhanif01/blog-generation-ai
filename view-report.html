@@ -178,6 +178,12 @@
     <script>
       $(document).ready(function() {
 
+        var user = JSON.parse(localStorage.getItem("user"));
+
+        if (!user) {
+          window.location.href = "/index.html";
+        } 
+
         function getQueryParamValue(parameter) {
             var urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(parameter);

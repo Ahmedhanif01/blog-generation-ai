@@ -164,6 +164,12 @@
     <script>
       $(document).ready(function() {
 
+        var user = JSON.parse(localStorage.getItem("user"));
+
+        if (!user) {
+          window.location.href = "/index.html";
+        } 
+
         $("#postForm").submit(function(event) { 
           event.preventDefault(); // Prevent default form submission
 
