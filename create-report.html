@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <title>Drafthorse AI - Tutorials</title>
+    <meta content="" name="description" />
+    <meta content="" name="keywords" />
+
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon" />
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,600,600i,700,700i"
+      rel="stylesheet"
+    />
+
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/aos/aos.css" rel="stylesheet" />
+    <link
+      href="assets/vendor/bootstrap/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="assets/vendor/bootstrap-icons/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
+    <link
+      href="assets/vendor/glightbox/css/glightbox.min.css"
+      rel="stylesheet"
+    />
+    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
+
+    <!-- Template Main CSS File -->
+    <link href="assets/css/style.css" rel="stylesheet" />
+
+    <!-- Custom CSS -->
+    <link href="assets/css/customStyles.css" rel="stylesheet" />
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- =======================================================
+  * Template Name: Ninestars
+  * Updated: May 30 2023 with Bootstrap v5.3.0
+  * Template URL: https://bootstrapmade.com/ninestars-free-bootstrap-3-theme-for-creative/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+  </head>
+
+  <body>
+    <header id="header" class="fixed-top d-flex align-items-center">
+      <div class="container d-flex align-items-center justify-content-between">
+        <div class="logo">
+          <h1 class="text-light">
+            <img src="assets/img/logo.png" />
+            <a href="home.html"><span>Drafthorse AI</span></a>
+          </h1>
+          <!-- Uncomment below if you prefer to use an image logo -->
+          <!-- <a href="home.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+        </div>
+
+        <nav id="navbar" class="navbar">
+          <ul>
+            <li>
+              <a class="nav-link scrollto active" href="home.html">Sites</a>
+            </li>
+            <li>
+              <a class="nav-link scrollto" href="billing.html">Billing</a>
+            </li>
+          </ul>
+          <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav>
+        <!-- .navbar -->
+      </div>
+    </header>
+
+    <div class="container col-10" style="margin-top: 7rem">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="home.html">Home</a></li>
+          <li class="breadcrumb-item active"><a href="home.html">Create Report</a></li>
+          
+        </ol>
+      </nav>
+
+      <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs" id="myTab">
+          <li class="nav-item">
+            <a
+              href="#keyword-report"
+              class="nav-link active"
+              data-bs-toggle="tab"
+              >Keyword Reports</a
+            >
+          </li>
+          <li class="nav-item">
+            <a href="#settings" class="nav-link" data-bs-toggle="tab"
+              >Settings</a
+            >
+          </li>
+        </ul>
+      </div>
+
+      <div class="card-body">
+        <div class="tab-content">
+          <div class="tab-pane fade show active" id="keyword-report">
+            <h1>Create a Keyword Report</h1>
+            <p>
+              Generate and export multiple blog posts from a list of keywords.
+              Once created, Drafthorse will write an SEO opimized blog post for
+              each keyword. After you can export a report in a zip, Word file
+              for PDF.
+              <a href="#">Need Something different? Let us know!</a>
+            </p>
+            <form id="postForm">
+              <div class="form-group">
+                <label for="title">Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="title"
+                  aria-describedby="emailHelp"
+                  placeholder="Ex: 'Tailend Low K/D Report'"
+                />
+              </div>
+              
+              <input type="file" id="csvFileInput" class="my-2 d-block" />
+              <input type="submit" value="Submit" class="btn btn-primary" />
+            </form>
+
+            <label>Download a sample csv file (don't change the header)</label>
+            <a href="/assets/keywords.csv" style="cursor: pointer; color: blue;">Download</a>
+          </div>
+
+          <div class="tab-pane fade" id="settings">
+            <h1 class="card-title">Settings</h1>
+            <p class="card-text">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat
+              accusamus nam quaerat earum rerum placeat aut architecto!
+              Accusantium exercitationem quisquam tenetur sint, laboriosam
+              doloribus ipsa nihil rerum, nemo at porro.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/aos/aos.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="assets/js/main.js"></script>
+
+    <script>
+      $(document).ready(function() {
+
+        $("#postForm").submit(function(event) { 
+          event.preventDefault(); // Prevent default form submission
+
+        function getQueryParamValue(parameter) {
+            var urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(parameter);
+        }
+
+          var apiURL = "http://13.214.183.231:4006/api/v1/createPost";
+          var csvFile = $('#csvFileInput')[0].files[0];
+          var projectId = getQueryParamValue('projectId');
+
+          var formData = new FormData();
+
+          formData.append('keywords-file', csvFile);
+          formData.append('title', $('#title').val());
+          formData.append('siteId', projectId);
+
+          $.ajax({
+            type: "POST",
+            url: apiURL,
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                // Handle the successful API response here
+                if (response.response_code === 0) {
+                  var url = "/project.html?id=" + encodeURIComponent(projectId);
+                  window.location.href = url;
+                }
+                console.log("Response:", response);
+            },
+            error: function(error) {
+                // Handle any errors that occur during the API call
+                console.error("Error:", error);
+            }
+          });
+
+        });
+      });
+    </script>
+  </body>
+</html>
