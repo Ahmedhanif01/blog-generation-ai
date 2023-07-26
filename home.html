@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-    <title>Drafthorse AI - Projects</title>
+    <title>ContentBlitz - Projects</title>
     <meta content="" name="description" />
     <meta content="" name="keywords" />
 
@@ -57,7 +57,7 @@
         <div class="logo">
           <h1 class="text-light">
             <img src="assets/img/logo.png" />
-            <a href="home.html"><span>Drafthorse AI</span></a>
+            <a href="home.html"><span>ContentBlitz</span></a>
           </h1>
           <!-- Uncomment below if you prefer to use an image logo -->
           <!-- <a href="home.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
@@ -94,7 +94,7 @@
           <tr>
             <th scope="col">Name</th>
             <th scope="col">Location</th>
-            <th scope="col" style="float: right;">
+            <th scope="col">
               <a href="create-project.html" class="btn btn-primary">Create New</a>
             </th>
           </tr>
@@ -184,9 +184,9 @@
                   .append($("<td style='display: none'>").text(item.id))
                   .append($("<td>").text(item.title))
                   .append($("<td>").text(item.url))
-                  .append($(`<td id=${item.id}><button id="btnViewSite" class="btn btn-primary">View</button></td>`))
-                  .append($(`<td id=${item.id}><button id="btnEditSite" class="btn btn-primary">Edit</button></td>`))
-                  .append($(`<td id=${item.id}><button id="btnDeleteSite" class="btn btn-danger">Delete</button></td>`));
+                  .append($(`<td id=${item.id}><button id="btnViewSite" class="btn btn-primary">View</button>&nbsp<button id="btnEditSite" class="btn btn-primary">Edit</button>&nbsp<button id="btnDeleteSite" class="btn btn-danger">Delete</button></td>`));
+                  // .append($(`<td id=${item.id}><button id="btnEditSite" class="btn btn-primary">Edit</button></td>`))
+                  // .append($(`<td id=${item.id}><button id="btnDeleteSite" class="btn btn-danger">Delete</button></td>`));
 
               // Append the row to the table body
               tableBody.append(row);

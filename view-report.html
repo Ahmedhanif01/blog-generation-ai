@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-    <title>Drafthorse AI - Sites</title>
+    <title>ContentBlitz - Sites</title>
     <meta content="" name="description" />
     <meta content="" name="keywords" />
 
@@ -59,7 +59,7 @@
         <div class="logo">
           <h1 class="text-light">
             <img src="assets/img/logo.png" />
-            <a href="home.html"><span>Drafthorse AI</span></a>
+            <a href="home.html"><span>ContentBlitz</span></a>
           </h1>
           <!-- Uncomment below if you prefer to use an image logo -->
           <!-- <a href="home.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
@@ -68,7 +68,7 @@
         <nav id="navbar" class="navbar">
           <ul>
             <li>
-              <a class="nav-link scrollto active" href="home.html">Sites</a>
+              <a class="nav-link scrollto active" href="home.html">Projects</a>
             </li>
             
             <li>
@@ -83,26 +83,10 @@
     </header>
 
     <div class="container-fluid col-10" style="margin-top: 7rem">
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="home.html">Home</a></li>
-          <li class="breadcrumb-item active"><a href="home.html">Sites</a></li>
-          <li class="breadcrumb-item active">
-            <a href="demo-site.html">Demo Sites</a>
-          </li>
-          <li class="breadcrumb-item active">
-            <a href="demo-site.html">Keyword Reports</a>
-          </li>
-          <li class="breadcrumb-item active" aria-current="page">
-            AWS Clout Cost Optimisation
-          </li>
-        </ol>
-      </nav>
+      
 
       <div class="header">
         <div class="row">
-          <h1 class="col-11">AWS Clout Cost Optimisation</h1>
-          
         </div>
         <!-- <p
           style="
@@ -202,6 +186,17 @@
         function populateCards(data) {
           var parent = $("#wordReport");
           $.each(data, function(index, item) {
+
+            var statusText = "";
+
+            if (item.article_requested === 1) {
+              statusText = "(Pending)";
+            }
+
+            if (item.article_ready === 1) {
+              statusText = "(Ready)"
+            }
+
             var accHeader = $(`
             <div class="card-header"
               data-toggle="collapse"
@@ -212,7 +207,7 @@
             >
               <h5 class="mb-0">
                 <div class="row">
-                  <span class="col-11">${item.word}</span
+                  <span class="col-11">${item.word} &nbsp &nbsp <span>${statusText}</span> </span
                   ><i class="bi bi-chevron-down col-1"></i>
                 </div>
               </h5>
@@ -225,13 +220,16 @@
             data-parent="#accordion"
           >
             <div class="card-body">
-              ${item.article_text}
+              ${atob(item.article_text)}
             </div>
           </div>`);
             
             parent.append(accHeader);
-            parent.append(accBottom);
+            if (item.article_ready === 1) {
 
+              parent.append(accBottom);
+
+            }
           });
         }
         
