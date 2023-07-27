@@ -223,7 +223,7 @@
           var userId = user.id;
 
           if (planId && planId.length > 0 && customerId && customerId.length > 0) {
-            var apiURL = "http://52.220.161.105:4006/api/v1/stripeSubscriptionCheckoutSession";
+            var apiURL = "https://app.contentblitz.ai:8080/api/v1/stripeSubscriptionCheckoutSession";
 
             var body = {
               customerId: customerId,
@@ -261,7 +261,7 @@
 
        $.ajax({
         type: "GET",
-        url: "http://52.220.161.105:4006/api/v1/billingPlans", // Replace with your API endpoint URL
+        url: "https://app.contentblitz.ai:8080/api/v1/billingPlans", // Replace with your API endpoint URL
         success: function(data) {
             // Call the function to populate the table with the fetched data
             console.log(data.data)
@@ -277,7 +277,7 @@
        $.ajax({
         method: "GET",
         dataType: "json",
-        url: "http://52.220.161.105:4006/api/v1/getActiveSubscriptions?userId=" + userId, // Replace with your API endpoint URL
+        url: "https://app.contentblitz.ai:8080/api/v1/getActiveSubscriptions?userId=" + userId, // Replace with your API endpoint URL
         success: function(data) {
             // Call the function to populate the table with the fetched data
             console.log(data.data)
