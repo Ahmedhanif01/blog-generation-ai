@@ -77,6 +77,16 @@
                 >Billing </a
               >
             </li>
+            <li class="nav-item dropdown">
+              <img src="assets/img/profile_icon.png" alt="User Avatar" class="user-avatar nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                <!-- Dropdown items go here -->
+                <p class="dropdown-item" id="userEmail"></p>
+                <p class="dropdown-item" id="userCredits"></p>
+                <div class="dropdown-divider"></div>
+                <span class="dropdown-item" id="onLogout" style="cursor: pointer;">Logout</span>
+              </div>
+            </li>
           </ul>
           <i class="bi bi-list mobile-nav-toggle"></i>
         </nav>
@@ -137,7 +147,16 @@
 
         if (!user) {
           window.location.href = "/index.html";
-        } 
+        } else {
+          $("#userEmail").text(user.email);
+          $("#userCredits").text("Credits: " + user.credits);
+        }
+
+        $(document).on("click", "#onLogout", function() {
+          // Code to be executed when the button is clicked
+         localStorage.removeItem("user");
+         window.location.href = "/index.html";
+        });
 
 
         function populateUI(data) {
@@ -151,7 +170,7 @@
                 <p>Try us at no cost</p>
                 <p class="price"><span class="font-weight-bold">$${item.price}/mo</span></p>
                 <p>${item.monthly_credits} articles</p>
-                <button id="btnSubscribe" priceId="${item.stripe_price_id}" class="btn btn-success">Choose Plan</button>
+                <button id="btnSubscribe" planId="${item.id}" class="btn btn-success">Choose Plan</button>
                 <div class="included pt-4 mt-4 border-top">
                   <p class="font-weight-bold">What is included</p>
                   <ul>
@@ -180,15 +199,15 @@
           // Code to be executed when the button is clicked
           var user = JSON.parse(localStorage.getItem("user"));
 
-          var stripePriceId = $(this).attr('priceId');
+          var planId = $(this).attr('planId');
           var customerId = user.stripeCustomerId;
 
-          if (stripePriceId && stripePriceId.length > 0 && customerId && customerId.length > 0) {
-            var apiURL = "http://13.214.183.231:4006/api/v1/createSubscription";
+          if (planId && planId.length > 0 && customerId && customerId.length > 0) {
+            var apiURL = "http://13.214.183.231:4006/api/v1/stripeSubscriptionCheckoutSession";
 
             var body = {
               customerId: customerId,
-              priceId: stripePriceId
+              planId: parseInt(planId)
             }
 
             $.ajax({
@@ -199,8 +218,10 @@
               success: function(response) {
                   // Handle the successful API response here
                   
-                  if (response.success && response.hasOwnProperty('subscriptionId') ) {
-                    window.location.href = "/home.html";
+                  if (response.success && response.response_code === 0 ) {
+                    if (response.hasOwnProperty('data')) {
+                      window.location.href = response.data.url
+                    }
                   } else {
                     var errorMessage = $("#errorMessage");
                     errorMessage.text(response.message)

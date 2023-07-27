@@ -1288,6 +1288,13 @@ section {
   padding-bottom: 12px;
 }
 
+.user-avatar {
+  border-radius: 50%;
+  cursor: pointer;
+  margin: 20px;
+  height: 50px;
+}
+
 #footer .footer-top .footer-links {
   margin-bottom: 30px;
 }
