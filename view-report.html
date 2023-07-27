@@ -38,6 +38,7 @@
 
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet" />
+    <link href="assets/css/customStyles.css" rel="stylesheet" />
 
     <link
       rel="stylesheet"
@@ -63,7 +64,7 @@
       <div class="container d-flex align-items-center justify-content-between">
         <div class="logo">
           <h1 class="text-light">
-            <img src="assets/img/logo.png" />
+             
             <a href="home.html"><span>ContentBlitz</span></a>
           </h1>
           <!-- Uncomment below if you prefer to use an image logo -->
@@ -167,6 +168,10 @@
       </div>
     </div>
 
+    <div id="loadingSpinner" class="loading-spinner">
+      <div class="spinner"></div>
+    </div>
+
     <!-- Vendor JS Files -->
     <script src="assets/vendor/aos/aos.js"></script>
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -193,6 +198,17 @@
       $(document).ready(function() {
 
         var user = JSON.parse(localStorage.getItem("user"));
+
+        showLoadingSpinner();
+
+        function showLoadingSpinner() {
+          $("#loadingSpinner").show();
+        }
+
+        // Function to hide the loading spinner
+        function hideLoadingSpinner() {
+          $("#loadingSpinner").hide();
+        }
 
         if (!user) {
           window.location.href = "/index.html";
@@ -225,6 +241,8 @@
             if (item.article_ready === 1) {
               statusText = "(Ready)"
             }
+
+            
 
             var accHeader = $(`
             <div class="card-header"
@@ -266,12 +284,14 @@
 
         $.ajax({
           type: "GET",
-          url: "http://13.214.183.231:4006/api/v1/keywordsByPostId?postId="+postId, // Replace with your API endpoint URL
+          url: "http://52.220.161.105:4006/api/v1/keywordsByPostId?postId="+postId, // Replace with your API endpoint URL
           success: function(data) {
               // Call the function to populate the table with the fetched data
+              hideLoadingSpinner();
               populateCards(data.data);
           },
           error: function(error) {
+            hideLoadingSpinner();
               console.error("Error:", error);
           }
        });

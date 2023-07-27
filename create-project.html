@@ -37,6 +37,7 @@
 
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet" />
+    <link href="assets/css/customStyles.css" rel="stylesheet" />
 
     <link
       rel="stylesheet"
@@ -61,7 +62,7 @@
       <div class="container d-flex align-items-center justify-content-between">
         <div class="logo">
           <h1 class="text-light">
-            <img src="assets/img/logo.png" />
+             
             <a href="home.html"><span>ContentBlitz</span></a>
           </h1>
           <!-- Uncomment below if you prefer to use an image logo -->
@@ -96,6 +97,10 @@
       </div>
     </header>
 
+    <div id="loadingSpinner" class="loading-spinner">
+      <div class="spinner"></div>
+    </div>
+
     <div class="container col-10" style="margin-top: 7rem">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -104,9 +109,9 @@
         </ol>
       </nav>
       <div class="col-4">
-        <h1>Create Project</h1>
+        <h1 id="tlHeading">Create Project</h1>
         <p>Setup a project to start generating and publishing content.</p>
-        <form id="createSiteForm" novalidate>
+        <form id="createSiteForm">
           <div class="form-group">
             <label for="title">Name</label>
             <input
@@ -116,6 +121,7 @@
               name="title"
               aria-describedby="emailHelp"
               placeholder="ContentBlitz"
+              required
             />
           </div>
           <div class="form-group">
@@ -126,6 +132,7 @@
               id="url"
               name="url"
               placeholder="https://ContentBlitzai.com"
+              required
             />
           </div>
           <input type="submit" value="Submit" class="mt-3 btn btn-primary" />
@@ -147,8 +154,32 @@
     <script>
       $(document).ready(function() {
 
+        function showLoadingSpinner() {
+          $("#loadingSpinner").show();
+        }
+
+        // Function to hide the loading spinner
+        function hideLoadingSpinner() {
+          $("#loadingSpinner").hide();
+        }
+
+        function getQueryParamValue(parameter) {
+            var urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(parameter);
+        }
+
+        function populateForm(data) {
+          $("#url").val(data.url);
+          $("#title").val(data.title)
+        }
 
         var user = JSON.parse(localStorage.getItem("user"));
+        var userId = user.id;
+        var projectId = getQueryParamValue('id');
+
+        if (projectId && projectId > 0) {
+          $("#tlHeading").text("Update Project");
+        }
 
         if (!user) {
           window.location.href = "/index.html";
@@ -163,35 +194,86 @@
          window.location.href = "/index.html";
         });
 
+        $.ajax({
+        type: "GET",
+        url: "http://52.220.161.105:4006/api/v1/site/" + projectId, // Replace with your API endpoint URL
+        success: function(data) {
+            // Call the function to populate the table with the fetched data
+            hideLoadingSpinner();
+            console.log(data);
+            populateForm(data.data);
+        },
+        error: function(error) {
+            hideLoadingSpinner();
+            console.error("Error:", error);
+        }
+       });
+
         
         $("#createSiteForm").submit(function(event) { 
 
           event.preventDefault(); // Prevent default form submission
+          showLoadingSpinner();
 
-          var apiURL = "http://13.214.183.231:4006/api/v1/site";
+          var apiURL = "http://52.220.161.105:4006/api/v1/site";
 
-          var body = {
-            url: $("#url").val(),
-            title: $("#title").val(),
-            userId: 4
-          }
+          
 
-          $.ajax({
-            type: "POST",
-            url: apiURL,
-            data: JSON.stringify(body),
-            contentType: "application/json",
-            success: function(response) {
-                // Handle the successful API response here
-                window.location.href = "/home.html";
-
-                console.log("Response:", response);
-            },
-            error: function(error) {
-                // Handle any errors that occur during the API call
-                console.error("Error:", error);
+          if (projectId && projectId > 0) {
+           
+            var body = {
+              url: $("#url").val(),
+              title: $("#title").val()
             }
-          });
+
+            $.ajax({
+              type: "PATCH",
+              url: apiURL + "/" + projectId,
+              data: JSON.stringify(body),
+              contentType: "application/json",
+              success: function(response) {
+                debugger;
+                  // Handle the successful API response here
+                  window.location.href = "/home.html";
+                  hideLoadingSpinner();
+                  console.log("Response:", response);
+              },
+              error: function(error) {
+                  // Handle any errors that occur during the API call
+                  hideLoadingSpinner();
+                  console.error("Error:", error);
+              }
+            });
+
+          } else {
+
+            var body = {
+              url: $("#url").val(),
+              title: $("#title").val(),
+              userId: userId
+            }
+           
+            $.ajax({
+              type: "POST",
+              url: apiURL,
+              data: JSON.stringify(body),
+              contentType: "application/json",
+              success: function(response) {
+                  // Handle the successful API response here
+                  window.location.href = "/home.html";
+                  hideLoadingSpinner();
+                  console.log("Response:", response);
+              },
+              error: function(error) {
+                  // Handle any errors that occur during the API call
+                  hideLoadingSpinner();
+                  console.error("Error:", error);
+              }
+            });
+          }
+          
+
+         
 
         });
       });

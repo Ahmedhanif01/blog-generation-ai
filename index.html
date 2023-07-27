@@ -37,6 +37,7 @@
 
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet" />
+    <link href="assets/css/customStyles.css" rel="stylesheet" />
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -56,7 +57,7 @@
       <div class="container d-flex align-items-center justify-content-between">
         <div class="logo">
           <h1 class="text-light">
-            <img src="assets/img/logo.png" />
+             
             <a href="home.html"><span>ContentBlitz</span></a>
           </h1>
           <!-- Uncomment below if you prefer to use an image logo -->
@@ -78,6 +79,7 @@
             id="email"
             aria-describedby="emailHelp"
             placeholder="Enter email"
+            required
           />
         </div>
         <div class="form-group">
@@ -87,6 +89,7 @@
             class="form-control"
             id="password"
             placeholder="Password"
+            required
           />
         </div>
         <input type="submit" value="Login" class="btn btn-primary mt-4 text-center align-items-center"
@@ -96,6 +99,10 @@
       <div>
         <h6 id="errorMessage" class="text-danger"></h6>
       </div>
+    </div>
+
+    <div id="loadingSpinner" class="loading-spinner">
+      <div class="spinner"></div>
     </div>
 
     <!-- Vendor JS Files -->
@@ -112,11 +119,20 @@
     <script>
       $(document).ready(function() {
 
+        function showLoadingSpinner() {
+          $("#loadingSpinner").show();
+        }
+
+        // Function to hide the loading spinner
+        function hideLoadingSpinner() {
+          $("#loadingSpinner").hide();
+        }
+
         $("#loginForm").submit(function(event) { 
           event.preventDefault(); // Prevent default form submission
 
-
-          var apiURL = "http://13.214.183.231:4006/api/v1/login";
+          showLoadingSpinner();
+          var apiURL = "http://52.220.161.105:4006/api/v1/login";
 
           var body = {
             email: $("#email").val(),
@@ -130,6 +146,7 @@
             contentType: "application/json",
             success: function(response) {
                 // Handle the successful API response here
+                hideLoadingSpinner();
                 if (response.response_code == 0 ) {
                   localStorage.setItem("user", JSON.stringify(response.data));
                   window.location.href = "/home.html";
@@ -140,6 +157,7 @@
                 
             },
             error: function(error) {
+              hideLoadingSpinner();
                 // Handle any errors that occur during the API call
                 console.error("Error:", error);
             }

@@ -37,6 +37,7 @@
 
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet" />
+    <link href="assets/css/customStyles.css" rel="stylesheet" />
 
     <link
       rel="stylesheet"
@@ -63,7 +64,7 @@
       <div class="container d-flex align-items-center justify-content-between">
         <div class="logo">
           <h1 class="text-light">
-            <img src="assets/img/logo.png" />
+             
             <a href="home.html"><span>ContentBlitz</span></a>
           </h1>
           <!-- Uncomment below if you prefer to use an image logo -->
@@ -121,6 +122,10 @@
       </table>
     </div>
 
+    <div id="loadingSpinner" class="loading-spinner">
+      <div class="spinner"></div>
+    </div>
+
     <!-- Vendor JS Files -->
     <script src="assets/vendor/aos/aos.js"></script>
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -135,7 +140,19 @@
     <script>
       $(document).ready(function() {
 
+        function showLoadingSpinner() {
+          $("#loadingSpinner").show();
+        }
+
+        // Function to hide the loading spinner
+        function hideLoadingSpinner() {
+          $("#loadingSpinner").hide();
+        }
+
+        showLoadingSpinner();
+
         var user = JSON.parse(localStorage.getItem("user"));
+        var userId = user.id;
 
         if (!user) {
           window.location.href = "/index.html";
@@ -168,19 +185,21 @@
         $(document).on("click", "#btnDeleteSite", function() {
           // Code to be executed when the button is clicked
           var id = $(this).parent().attr('id');
-
+          showLoadingSpinner();
           if (confirm("Are you sure?")) {
             $.ajax({
               type: "DELETE",
-              url: "http://13.214.183.231:4006/api/v1/site/" + id, // Replace with your API endpoint URL
+              url: "http://52.220.161.105:4006/api/v1/site/" + id, // Replace with your API endpoint URL
               success: function(data) {
                   // Call the function to populate the table with the fetched data
                   console.log(data);
                   if (data.response_code === 0) {
+                    hideLoadingSpinner();
                     window.location.reload();
                   }
               },
               error: function(error) {
+                hideLoadingSpinner();
                   console.error("Error:", error);
               }
             });
@@ -192,12 +211,14 @@
         
         $.ajax({
         type: "GET",
-        url: "http://13.214.183.231:4006/api/v1/sitesByUserId?userId=4", // Replace with your API endpoint URL
+        url: "http://52.220.161.105:4006/api/v1/sitesByUserId?userId=" + userId, // Replace with your API endpoint URL
         success: function(data) {
             // Call the function to populate the table with the fetched data
+            hideLoadingSpinner();
             populateTable(data.data);
         },
         error: function(error) {
+            hideLoadingSpinner();
             console.error("Error:", error);
         }
        });

@@ -37,6 +37,7 @@
 
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet" />
+    <link href="assets/css/customStyles.css" rel="stylesheet" />
 
     <!-- Custom CSS -->
     <link href="assets/css/customStyles.css" rel="stylesheet" />
@@ -64,7 +65,7 @@
       <div class="container d-flex align-items-center justify-content-between">
         <div class="logo">
           <h1 class="text-light">
-            <img src="assets/img/logo.png" />
+             
             <a href="home.html"><span>ContentBlitz</span></a>
           </h1>
           <!-- Uncomment below if you prefer to use an image logo -->
@@ -143,10 +144,11 @@
                   id="title"
                   aria-describedby="emailHelp"
                   placeholder="Ex: 'Tailend Low K/D Report'"
+                  required
                 />
               </div>
               
-              <input type="file" id="csvFileInput" class="my-2 d-block" />
+              <input type="file" id="csvFileInput" class="my-2 d-block" required/>
               <input type="submit" value="Submit" class="btn btn-primary" />
             </form>
 
@@ -167,6 +169,10 @@
       </div>
     </div>
 
+    <div id="loadingSpinner" class="loading-spinner">
+      <div class="spinner"></div>
+    </div>
+
     <!-- Vendor JS Files -->
     <script src="assets/vendor/aos/aos.js"></script>
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -183,6 +189,17 @@
 
         var user = JSON.parse(localStorage.getItem("user"));
 
+         
+
+          function showLoadingSpinner() {
+            $("#loadingSpinner").show();
+          }
+
+          // Function to hide the loading spinner
+          function hideLoadingSpinner() {
+            $("#loadingSpinner").hide();
+          }
+
         if (!user) {
           window.location.href = "/index.html";
         } else {
@@ -198,13 +215,13 @@
 
         $("#postForm").submit(function(event) { 
           event.preventDefault(); // Prevent default form submission
-
+          showLoadingSpinner();
         function getQueryParamValue(parameter) {
             var urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(parameter);
         }
 
-          var apiURL = "http://13.214.183.231:4006/api/v1/createPost";
+          var apiURL = "http://52.220.161.105:4006/api/v1/createPost";
           var csvFile = $('#csvFileInput')[0].files[0];
           var projectId = getQueryParamValue('projectId');
 
@@ -222,6 +239,7 @@
             processData: false,
             success: function(response) {
                 // Handle the successful API response here
+                hideLoadingSpinner();
                 if (response.response_code === 0) {
                   var url = "/project.html?id=" + encodeURIComponent(projectId);
                   window.location.href = url;
@@ -229,6 +247,7 @@
                 console.log("Response:", response);
             },
             error: function(error) {
+              hideLoadingSpinner();
                 // Handle any errors that occur during the API call
                 console.error("Error:", error);
             }
